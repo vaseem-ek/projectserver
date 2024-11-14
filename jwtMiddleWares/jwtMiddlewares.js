@@ -5,7 +5,7 @@ const jwtMiddleware=(req,res,next)=>{
     try{
         const token=req.headers.authorization.split(" ")[1]
         const data =jwt.verify(token,process.env.SECRET_KEY)
-        console.log(data ,"token");
+        // console.log(data);
         if(data){
             const {userId}=data
             req.payload=userId

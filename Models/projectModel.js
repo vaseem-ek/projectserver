@@ -26,7 +26,7 @@ const projectSchema=new mongoose.Schema({
         type:String,
         requred:true
     },
-    userid:{
+    userId:{
         type:String,
         requred:true
     }

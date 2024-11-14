@@ -12,7 +12,7 @@ exports.userRegister = async (req, res) => {
 
         }
         else {
-            const newUser = new users({ email, username, password })
+            const newUser = new users({ email, username, password ,linkedin:"",github:"",profile:""})
             await newUser.save()
             res.status(200).json(newUser)
         }
@@ -37,7 +37,7 @@ exports.userLogin = async (req, res) => {
         if (existing) {
             const token=jwt.sign({userId:existing._id},process.env.SECRET_KEY)
             // res.status(200).json(existing)
-            res.status(200).json({token,username:existing.username})
+            res.status(200).json({token,username:existing.username,linkedin:existing.linkedin,profile:existing.profile,github:existing.github})
         }
         else {
             res.status(406).json("Invalid Email/Password")
@@ -52,3 +52,25 @@ exports.userLogin = async (req, res) => {
     }
 
 }
+
+exports.updateUser=async(req,res)=>{
+    try {
+        const userId=req.payload
+        if(req.file){
+            var profile=req.file.filename
+            var {username,github,linkedin}=req.body
+        }else{
+            var {username,github,linkedin,profile}=req.body
+        }
+
+        const result=await users.findByIdAndUpdate(userId,{
+            username,github,linkedin,profile
+        })
+        res.status(200).json(result)
+    } catch (error) {
+        console.log(error);
+        res.status(400).json(error)
+        
+    }
+}
+
